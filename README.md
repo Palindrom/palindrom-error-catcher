@@ -4,9 +4,9 @@
 
 > Handles palindrom-client disconnection events and creates the needed UI to give the user control over them
 
-Custom Element that binds with [palindrom-client](https://github.com/Palindrom/palindrom-client) connection events and shows a simple UX that allows the user to interact with them. It is can be used as an example of designing your own error catcher.
+Custom Element that binds with [palindrom-client](https://github.com/Palindrom/palindrom-client) connection events and shows a simple UI that allows the user to interact with the events. It is can be used as an example of designing your own error-preseting UI.
 
-Please check the code at `palindrom-error-catcher.html` file to see how events are handles. 
+Please check the code at `palindrom-error-catcher.html` file to see how events are handled. 
 
 # Creating your own
 
