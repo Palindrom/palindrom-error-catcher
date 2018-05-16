@@ -1,0 +1,82 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <!-- Importing Web Component's Polyfill -->
+    <script src="../../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <script src="../../../sinonjs/sinon.js"></script>
+
+    <link rel="import" href="../shared/helpers.html">
+
+    <script src="../../../web-component-tester/browser.js"></script>
+
+    <!-- Step 1: import the element to test -->
+    <link rel="import" href="../../palindrom-error-catcher.html">
+</head>
+
+<body>
+    <test-fixture id="text-fixture">
+        <template>
+            <palindrom-client></palindrom-client>
+            <palindrom-error-catcher></palindrom-error-catcher>
+        </template>
+    </test-fixture>
+    <script>
+        describe('palindrom-error-catcher', function () {
+            var textFixture, ppclient, palindromErrorCatcher, errorCatcherShadowRoot;
+            before(function () {
+                chai.use(palindromChaiPlugin);
+            });
+            beforeEach(function () {
+                textFixture = fixture('text-fixture');
+                ppclient = textFixture[0];
+                palindromErrorCatcher = textFixture[1];
+                errorCatcherShadowRoot = palindromErrorCatcher.shadowRoot;
+            });
+            describe('Connection errors: UI', function () {
+                it('Should show UI after connection error', function () {
+                    const errorPane = errorCatcherShadowRoot.querySelector('.connection-error-pane');
+
+                    expect(errorPane).to.be.not.visible;
+                    ppclient.fireConnectionErrorEvent();
+                    expect(errorPane).to.be.visible;
+                });
+                it('Should show UI after generic error', function () {
+                    const errorPane = errorCatcherShadowRoot.querySelector('.generic-error-pane');
+
+                    expect(errorPane).to.be.not.visible;
+                    ppclient.fireGenericErrorEvent();
+                    expect(errorPane).to.be.visible;
+                });
+            });
+            describe('Connection errors: console', function () {
+                var consoleErrorSpy;
+
+                beforeEach(function () {
+                    consoleErrorSpy = sinon.spy(console, 'error');
+                });
+                afterEach(function () {
+                    console.error.restore();
+                });
+
+                it('Should call console.error after connection error', function () {
+                    expect(consoleErrorSpy).to.be.not.called;
+                    ppclient.fireConnectionErrorEvent('some connection error');
+                    expect(consoleErrorSpy).to.be.called;
+                    expect(consoleErrorSpy.getCall(0).args[0].message).to.contain('some connection error');
+                });
+                it('Should  call console.error after generic error', function () {
+                    expect(consoleErrorSpy).to.be.not.called;
+                    ppclient.fireGenericErrorEvent('some generic error');
+                    expect(consoleErrorSpy).to.be.called;
+                    expect(consoleErrorSpy.getCall(0).args[0].message).to.contain('some generic error');
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>
