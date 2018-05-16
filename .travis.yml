@@ -2,16 +2,20 @@ language: node_js
 sudo: required
 dist: trusty
 before_script:
-  - npm install web-component-tester
-  - npm install bower
-  - 'export PATH=$PWD/node_modules/.bin:$PATH'
-  - bower install
+- npm install web-component-tester
+- npm install bower
+- export PATH=$PWD/node_modules/.bin:$PATH
+- bower install
 node_js: 8
 addons:
   apt:
     sources:
-      - google-chrome
+    - google-chrome
     packages:
-      - google-chrome-stable
+    - google-chrome-stable
 script:
-  - xvfb-run wct
+- xvfb-run wct
+env:
+  global:
+  - secure: udu+o3NNMHha79ytgmQxCKH99hTEO2egjCPyy97cCMY0b7jkaMM87UtGvrdxJtZGpkSLRPDxIseafZ0Z9Kvn8splH/cNe23m34LuW97BOeI6R9/1HQBJAyG17luVI8wlW2aYq1xD0xJqpxdTyG/hAKB3D3/8KoAIe9r/fH53cNEHi0mfuOqfWuuQmvmrzKD+DFgPj4SmQPLMxBba6O83kmXZw5NIQYYuoEszPmA4wZxtQzNO0DS37g1N7bsoU6505CKzYaXVLApcpCnmz4s5no21TP+tFBPW9zCjul+J+0WR20PxiaGtI1PlnAAdr0LZPUuBxoRpFhoQwZV5ojsTo82JNjexvmEVY2xOLE3+LS1j9IMvK7Fuv1TbV4r9eufAqvYTt4pVVgo6FwuEfLiMx9Tye7GFlfYmJFsv2dSTDekFr1vDi5E28R2V5JVAT/y+q4eSEsgLDSc7Tpts/ME1nUG3wMTH8NaAqZr7opcfa3vBe+dkeXTw8p8DX6lsaUtLiVvpw4hZGG15h0x05proU2e+RBBDp1SX0bovBjzbxSkJklm5Gzc+lVcGWDJtf/szcwLp77+LvKIHHnLMswezF002OlhRPfNQ8xil9bk/GR5PWnrH/n1A8VLYPAaFwU1tf89I4dPhZVnHSj+y8RWkV+SG7FUbbWE4uFBZnX9oQ6I=
+  - secure: R1ycV0k4ZbLsNrOhCTTBWzA39mYhH5DtDJ+3fUXvfuWKB97dFDBKgsIFCRketQ2y4uLQr9iNA2kMWjygQ1uwL5SscyYypyKCuVT7dAVa6E+wGO4UjxR/8E0VcgmkfHi9wD2neC3GNDumHH5SwZVLHmqSf0QFvB+Gem46ukDuS3wdgTv1+0oGFpQGbruBCTGxWZ2ydWuuC5zWZYoOguy/IZilDU+2wvG5wAFRz5cQuwSIy6iOsprIdtlgvDpBkwSS2KPs16f3j1xntrg995SXfUFDCyVJ3FGusDAAvIYJ25jls4zydUXDH1JrhiD1rhty1Nc3RI2hZ/yFdXll9J0Kl/nPMNpsECn65pn25AfxcPSChjIgXm+U1pcWEQEMGvhvqvVeZL3fp0o8srxtVssmLAQMMDR2vxe3McDrVnKLHEsbRHQEM0GIlRInsMuZ2RvyDpypGMYEkzZvGMVIUCDTS31xOz/Vtr8/WocqaW0wslvg2l4oKsw+ckWWDJbOXOCQ3RyrEl3+qknJ6a5KF7o4TQwxwpxndeEtgeJeHPwHHThV77SWViOtBgBSvmuZwVngVBaerhIUCsOvCdc9xBvHzfz8o94UbuFIPvV9p03yvdplRmIband0bL9tuerHxmNtVq/au2z21WOdsHVrqZEjhrv4XwTkLiw8QUGkPJ44W4I=
