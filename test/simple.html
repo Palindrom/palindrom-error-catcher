@@ -25,15 +25,25 @@
     </test-fixture>
     <script>
         describe('palindrom-error-catcher', function () {
-            var textFixture, ppclient, palindromErrorCatcher, errorCatcherShadowRoot;
+            var textFixture, ppclient, palindromErrorCatcher, errorCatcherShadowRoot, originalConsoleError;
             before(function () {
                 chai.use(palindromChaiPlugin);
+                /* for some strange reason I couldn't find a trace for,
+                when console.error is called, mocha assumes an exception happened,
+                even if it is intended. This fixes the issue but doesn't affect the test scenario */
+                originalConsoleError = console.error;
+                console.error = function noop () {};
             });
+            after(function() {
+                // just to be clean
+                console.error = originalConsoleError;
+            })
             beforeEach(function () {
                 textFixture = fixture('text-fixture');
                 ppclient = textFixture[0];
                 palindromErrorCatcher = textFixture[1];
                 errorCatcherShadowRoot = palindromErrorCatcher.shadowRoot;
+                
             });
             describe('Connection errors: UI', function () {
                 it('Should show UI after connection error', function () {

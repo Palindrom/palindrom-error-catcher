@@ -75,10 +75,40 @@
             location.reload();
         }
 
+        function bindToElement(instance) {
+            instance.target = instance.getRootNode().querySelector(instance.targetSelector) || document.querySelector(instance.targetSelector);
+        }
+
+        function subscribeToEvents(instance) {
+            unsubscribeToEvents(instance);
+            instance.target.addEventListener('generic-error', instance.handleGenericError);
+            instance.target.addEventListener('connection-error', instance.handleConnectionError);
+            instance.target.addEventListener('reconnection-countdown', instance.handleReconnectionCountdownTick);
+            instance.target.addEventListener('reconnection-end', instance.handleReconnectionEnd);
+            instance.cancelReloadingBtn.addEventListener('click', instance.cancelReloading);
+            instance.reloadNowBtn.addEventListener('click', reload);
+            instance.genericErrorPane.addEventListener('click', reload);
+            instance.subscribed = true;
+        }
+
+        function unsubscribeToEvents(instance) {
+            if (instance.subscribed) {
+                instance.target.removeEventListener('generic-error', instance.handleGenericError);
+                instance.target.removeEventListener('connection-error', instance.handleConnectionError);
+                instance.target.removeEventListener('reconnection-countdown', instance.handleReconnectionCountdownTick);
+                instance.target.removeEventListener('reconnection-end', instance.handleReconnectionEnd);
+                instance.genericErrorPane.removeEventListener('click', reload);
+                instance.cancelReloadingBtn.removeEventListener('click', instance.cancelReloading);
+                instance.reloadNowBtn.removeEventListener('click', reload);
+                instance.subscribed = false;
+            }
+        }
+
         class PalindromErrorCatcher extends HTMLElement {
             static get observedAttributes() {
                 return ['target-selector']
             }
+
             constructor() {
                 super();
 
@@ -95,50 +125,29 @@
 
                 bindCallbacks(this);
             }
-            _bindToElement() {
-                this.target = this.getRootNode().querySelector(this.targetSelector) || document.querySelector(this.targetSelector);
-            }
 
-            _subscribeToEvents() {
-                this._unsubscribeToEvents();
-                this.target.addEventListener('generic-error', this.handleGenericError);
-                this.target.addEventListener('connection-error', this.handleConnectionError);
-                this.target.addEventListener('reconnection-countdown', this.handleReconnectionCountdownTick);
-                this.target.addEventListener('reconnection-end', this.handleReconnectionEnd);
-                this.cancelReloadingBtn.addEventListener('click', this.cancelReloading);
-                this.reloadNowBtn.addEventListener('click', reload);
-                this.genericErrorPane.addEventListener('click', reload);
-                this.subscribed = true;
-            }
-            _unsubscribeToEvents() {
-                if (this.subscribed) {
-                    this.target.removeEventListener('generic-error', this.handleGenericError);
-                    this.target.removeEventListener('connection-error', this.handleConnectionError);
-                    this.target.removeEventListener('reconnection-countdown', this.handleReconnectionCountdownTick);
-                    this.target.removeEventListener('reconnection-end', this.handleReconnectionEnd);
-                    this.genericErrorPane.removeEventListener('click', reload);
-                    this.cancelReloadingBtn.removeEventListener('click', this.cancelReloading);
-                    this.reloadNowBtn.removeEventListener('click', reload);
-                    this.subscribed = false;
-                }
-            }
+
             connectedCallback() {
                 this.targetSelector = this.getAttribute('target-selector') || 'palindrom-client';
-                this._bindToElement();
-                this._subscribeToEvents();
+                bindToElement(this);
+                subscribeToEvents(this);
             }
+
             disconnectedCallback() {
-                this._unsubscribeToEvents();
+                unsubscribeToEvents(this);
             }
+
             handleGenericError(event) {
                 this.genericErrorPane.removeAttribute('hidden');
                 console.error(event.detail.error);
             }
+
             cancelReloading() {
                 this.connectionErrorPane.setAttribute('hidden', '');
                 clearInterval(this.reloadInterval);
                 delete this.reloadInterval;
             }
+
             handleConnectionError(event) {
                 this.connectionErrorPane.removeAttribute('hidden');
                 let timeout = 4;
@@ -155,16 +164,16 @@
             }
             handleReconnectionCountdownTick(event) {
                 /* you can use this method to add your logic to handle reconnection timer ticks */
-                console.log('Reconnection tick', event)
+                console.info('Reconnection tick', event)
             }
             handleReconnectionEnd() {
                 /* you can use this method to add your logic to handle reconnection initiation. */
-                console.log('Reconnection will happen now...')
+                console.info('Reconnection will happen now...')
             }
             attributeChangedCallback(name, oldVal, newVal) {
                 this.targetSelector = newVal;
-                this._bindToElement();
-                this._subscribeToEvents();
+                this.bindToElement(this);
+                this.subscribeToEvents(this);
             }
         }
         customElements.define('palindrom-error-catcher', PalindromErrorCatcher)
