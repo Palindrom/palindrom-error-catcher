@@ -8,6 +8,58 @@ Custom Element that binds with [palindrom-client](https://github.com/Palindrom/p
 
 Please check the code at `palindrom-error-catcher.html` file to see how events are handled. 
 
-# Creating your own
+## Creating your own
 
 If you want to gain control over the appearance of your errors UI. You can fork this element, put it in the `wwwroot/sys/` folder of your app. And edit it as desired. Once you have an element in this folder with the same name, it will supersede the default one and your UI will be shows. 
+
+## Install
+
+Install the component using [Bower](http://bower.io/):
+
+```sh
+$ bower install palindrom-error-catcher --save
+```
+
+Or [download as ZIP](https://github.com/Palindrom/palindrom-error-catcher/archive/master.zip).
+
+## Usage
+
+1. Import polyfill:
+
+    ```html
+    <script src="bower_components/webcomponentsjs/webcomponent-lite.js"></script>
+    ```
+
+2. Import custom element:
+
+    ```html
+    <link rel="import" href="bower_components/palindrom-error-catcher/palindrom-error-catcher.html">
+    ```
+
+3. Start using it!
+
+    ```html
+    <palindrom-error-catcher></palindrom-error-catcher>
+    ```
+
+## Options
+
+Attribute     | Options     | Default      | Description
+---           | ---         | ---          | ---
+`target-selector`         | *string*    | `palindrom-client`        | CSS selector of `palindrom-client` element.
+
+## Methods
+
+Method        | Parameters   | Returns     | Description
+---           | ---          | ---         | ---
+`cancelReloading()`   | None.        | Nothing.    | Cancels reloading timer and hides the disconnection bar.
+
+## [Contributing and Development](CONTRIBUTING.md)
+
+## History
+
+For detailed changelog, check [Releases](https://github.com/Palindrom/palindrom-error-catcher/releases).
+
+## License
+
+MIT
