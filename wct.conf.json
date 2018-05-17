@@ -8,7 +8,7 @@
     "sauce": {
       "disabled": false,
       "browsers": [{
-        "browserName": "edge",
+        "browserName": "MicrosoftEdge",
         "platform": "Windows 10"
       },
       {
