@@ -1,0 +1,27 @@
+<script>
+    window.palindromChaiPlugin = function (chai, utils) {
+        chai.Assertion.addProperty('visible', function () {
+            this.assert(this._obj.offsetWidth || this._obj.offsetHeight || this._obj.getClientRects().length,
+                "expected element #{this} to be visible, but it's hidden",
+                "expected element #{this} to be hidden, but it's visible");
+        })
+    };
+    customElements.define('palindrom-client', class PalindromClientMock extends HTMLElement {
+        fireConnectionErrorEvent(msg) {
+            this.dispatchEvent(new CustomEvent('connection-error', {
+                detail: { error: new Error(msg) }
+            }));
+        }
+        fireGenericErrorEvent(msg) {
+            this.dispatchEvent(new CustomEvent('generic-error', {
+                detail: { error: new Error(msg) }
+            }));
+        }
+        fireReconnectionTickEvent() {
+            this.dispatchEvent(new CustomEvent('reconnection-countdown'));
+        }
+        fireReconnectionEndEvent() {
+            this.dispatchEvent(new CustomEvent('reconnection-end'));
+        }
+    });
+</script>
