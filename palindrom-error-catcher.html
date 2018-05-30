@@ -139,7 +139,6 @@
 
             handleGenericError(event) {
                 this.genericErrorPane.removeAttribute('hidden');
-                console.error(event.detail.error);
             }
 
             cancelReloading() {
@@ -160,7 +159,6 @@
                         }
                     }, 1000);
                 }
-                console.error(event.detail.error);
             }
             handleReconnectionCountdownTick(event) {
                 /* you can use this method to add your logic to handle reconnection timer ticks */
