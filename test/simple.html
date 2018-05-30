@@ -61,29 +61,6 @@
                     expect(errorPane).to.be.visible;
                 });
             });
-            describe('Connection errors: console', function () {
-                var consoleErrorSpy;
-
-                beforeEach(function () {
-                    consoleErrorSpy = sinon.spy(console, 'error');
-                });
-                afterEach(function () {
-                    console.error.restore();
-                });
-
-                it('Should call console.error after connection error', function () {
-                    expect(consoleErrorSpy).to.be.not.called;
-                    ppclient.fireConnectionErrorEvent('some connection error');
-                    expect(consoleErrorSpy).to.be.called;
-                    expect(consoleErrorSpy.getCall(0).args[0].message).to.contain('some connection error');
-                });
-                it('Should  call console.error after generic error', function () {
-                    expect(consoleErrorSpy).to.be.not.called;
-                    ppclient.fireGenericErrorEvent('some generic error');
-                    expect(consoleErrorSpy).to.be.called;
-                    expect(consoleErrorSpy.getCall(0).args[0].message).to.contain('some generic error');
-                });
-            });
         });
     </script>
 
